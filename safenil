@@ -1,9 +1,14 @@
 local safenil, safenil_mt = {}, {
 -- TODO: Add all normal metamethods.
+	__unm = function() return 0 end,
+	__len = function() return 0 end, 
 	__gc = function() end,
 	__mode = "kv",
 	__tostring = function() return "" end
 }
+safenil_mt.__call = function()
+	return safenil
+end
 safenil_mt.__metatable = safenil_mt
 safenil_mt.__ipairs = function()
 	return function () end, safenil, safenil
