@@ -1,0 +1,28 @@
+package = {loaded = {}}
+
+function module(name, ...)
+	local t = package.loaded[name]
+	local globals = getfenv(0)
+	if not t then
+		t = globals[name]
+		if not t then
+			t = {}
+			globals[name] = t
+		end
+		package.loaded[name] = t
+	end
+	if not t._NAME then
+		t._M = t
+		t._NAME = name
+		t._PACKAGE = string.match(name, "(.*)%.")
+	end
+	setfenv(2, t)
+	local options = {...}
+	for i = 1, #options do
+		options(t)
+	end
+end
+
+function require(modname)
+	
+end
